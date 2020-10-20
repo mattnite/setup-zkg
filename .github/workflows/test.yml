@@ -4,4 +4,4 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/setup-zkg@v1
+    - uses: actions/setup-zkg@1
