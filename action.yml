@@ -1,0 +1,35 @@
+name: 'Setup Zkg'
+description: 'Get Zkg for your github action'
+author: 'mattnite'
+runs:
+  using: "composite"
+  steps:
+    - name: Checkout libgit2
+      uses: actions/checkout@master
+      with:
+        repository: libgit2/libgit2
+        path: libgit2
+        
+    - name: Configure cmake
+      run: cmake --configure .
+      working-directory: libgit2
+  
+    - name: Build and Install libgit2
+      run: sudo cmake --build . --target install
+      working-directory: libgit2
+      
+    - name: Setup Zig
+      uses: goto-bus-stop/setup-zig@v1
+      with:
+        version: master
+
+    - name: Checkout Zkg
+      uses: actions/checkout@master
+      with:
+        repository: mattnite/zkg
+        submodules: recursive
+        path: zkg
+
+    - name: Build Zkg
+      run: zig build --prefix /usr install
+      working-directory: zkg
